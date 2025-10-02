@@ -6,6 +6,7 @@ yarn-error.log*
 dist/
 build/
 
+pruebas.http
 # Archivos de entorno
 .env
 .env.local
