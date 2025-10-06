@@ -10,8 +10,8 @@ export class UserService {
         const { name, email, password, role } = userData
 
         const emailExists = await this.userRepository.findByEmail(email)
-        if (emailExists) {throw new Error('El Email ya esta registrado')}
-        const saltRounds = Number(config.secret.salt); 
+        if (emailExists) { throw new Error('El Email ya esta registrado') }
+        const saltRounds = Number(config.secret.salt);
         const hashPassword = await bcrypt.hash(password, saltRounds)
         const newUser = {
             name,
@@ -22,13 +22,13 @@ export class UserService {
 
         return await this.userRepository.create(newUser);
     }
-    loginUser = async (email,password)=>{
+    loginUser = async (email, password) => {
         const user = await this.userRepository.findByEmail(email)
-        if(!user){throw new Error('No se encontro el Email')}
-        const isValid = await bcrypt.compare(password, user.password)
-        if(!isValid){throw new Error('Contraseña incorrecta')}
+        if (!user || !await bcrypt.compare(password, user.password)) {
+            throw new Error('Email o contraseña incorrectos')
+        }
 
-        const {password: _, ...userWithoutPassword} = user.toObject()
+        const { password: _, ...userWithoutPassword } = user.toObject()
 
         return userWithoutPassword
     }

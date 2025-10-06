@@ -1,3 +1,5 @@
+import {generateToken} from '../../auth/authService.js'
+import config from '../../config.js'
 
 export class UserController {
     constructor(userService) {
@@ -31,6 +33,15 @@ export class UserController {
         try{
             const { email, password} = req.body
             const user = await this.userService.loginUser(email, password);
+            const token = generateToken(user)
+
+            res.cookie('token', token,{
+                httpOnly: true,
+                secure: config.env.node_env,
+                sameSite: 'strict',
+                maxAge: 15*60*1000,
+            });
+
             res.status(200).json({
                 message: 'Usuario Logeado',
                 user:{ 
@@ -42,6 +53,10 @@ export class UserController {
         }catch(error){
             res.status(400).json({error: error.message});
         }
+    }
+    logout = (res,req) =>{
+        res.clearCookie('token')
+        res.json({message: 'Sesion cerrada'})
     }
 
 }

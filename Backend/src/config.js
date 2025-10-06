@@ -13,5 +13,12 @@ export default {
     },
     secret: {
         salt: process.env.SALT
+    },
+    jwt_secret:{
+        jwt: process.env.SECRET
+    },
+    env:{
+        node_env: process.env.NODE_ENV
     }
+
 }
