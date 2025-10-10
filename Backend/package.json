@@ -12,7 +12,8 @@
   "license": "ISC",
   "packageManager": "pnpm@10.17.0",
   "devDependencies": {
-    "dotenv": "^17.2.2"
+    "dotenv": "^17.2.2",
+    "standard": "^17.1.2"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
